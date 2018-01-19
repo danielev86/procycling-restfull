@@ -14,21 +14,16 @@ import com.danielev86.procycling.backend.bo.TeamBO;
 
 @Repository("teamDao")
 @Transactional
-public class TeamDAOImpl implements ITeamDAO {
+public class TeamDAOImpl extends AbstractDao<TeamBO> implements ITeamDAO {
 	
 	private static final long serialVersionUID = 1L;
-	
-	@PersistenceContext
-	private EntityManager entityManager;
 	
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
 	@SuppressWarnings("unchecked")
 	public List<TeamBO> getAllTeam(){
-		StringBuffer hqlQuery = new StringBuffer();
-		hqlQuery.append(" SELECT t ")
-		.append(" FROM TeamBO t ");
-		List<TeamBO> lstTeam = entityManager.createQuery(hqlQuery.toString()).getResultList();
+		setClassz(TeamBO.class);
+		List<TeamBO> lstTeam = this.findAll();
 		return lstTeam;
 	}
 
