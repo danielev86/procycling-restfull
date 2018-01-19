@@ -10,17 +10,24 @@ import org.springframework.stereotype.Service;
 import com.danielev86.procycling.backend.ITeamDAO;
 import com.danielev86.procycling.backend.bo.TeamBO;
 import com.danielev86.procycling.controller.dto.TeamDTO;
+import com.danielev86.procycling.controller.dto.TeamDetailDTO;
 import com.danielev86.procycling.converter.TeamDTOConverter;
+import com.danielev86.procycling.converter.TeamDetailDTOConverter;
 import com.danielev86.procycling.service.ITeamService;
 
 @Service("teamService")
 public class TeamServiceImpl implements ITeamService {
+
+	private static final long serialVersionUID = 1L;
 
 	@Autowired
 	private ITeamDAO teamDao;
 	
 	@Autowired
 	private TeamDTOConverter teamDTOConverter;
+	
+	@Autowired
+	private TeamDetailDTOConverter teamDetailDTOConverter;
 	
 	@Override
 	public List<TeamDTO> getAllTeam(){
@@ -31,6 +38,19 @@ public class TeamServiceImpl implements ITeamService {
 		if (CollectionUtils.isNotEmpty(lstTeam)) {
 			for (TeamBO team : lstTeam) {
 				lstResult.add(teamDTOConverter.convert(team));
+			}
+		}
+		return lstResult;
+	}
+	
+	@Override
+	public List<TeamDetailDTO> getAllTeamDetail(){
+		List<TeamDetailDTO> lstResult = new ArrayList<>();
+		List<TeamBO> lstTeam = teamDao.getAllTeam();
+		
+		if (CollectionUtils.isNotEmpty(lstTeam)) {
+			for (TeamBO team:lstTeam) {
+				lstResult.add(teamDetailDTOConverter.convert(team));
 			}
 		}
 		return lstResult;

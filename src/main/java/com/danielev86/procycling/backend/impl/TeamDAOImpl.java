@@ -28,7 +28,6 @@ public class TeamDAOImpl implements ITeamDAO {
 		StringBuffer hqlQuery = new StringBuffer();
 		hqlQuery.append(" SELECT t ")
 		.append(" FROM TeamBO t ");
-		
 		List<TeamBO> lstTeam = entityManager.createQuery(hqlQuery.toString()).getResultList();
 		return lstTeam;
 	}

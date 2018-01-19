@@ -2,11 +2,14 @@ package com.danielev86.procycling.backend.bo;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -25,6 +28,9 @@ public class TeamBO implements Serializable {
 	
 	@Column(name="team_manager")
 	private String teamManager;
+	
+	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	private CountryBO country;
 
 	public Long getId() {
 		return id;
@@ -50,4 +56,11 @@ public class TeamBO implements Serializable {
 		this.teamManager = teamManager;
 	}
 
+	public CountryBO getCountry() {
+		return country;
+	}
+
+	public void setCountry(CountryBO country) {
+		this.country = country;
+	}
 }

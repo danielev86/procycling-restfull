@@ -3,6 +3,7 @@ package com.danielev86.procycling.controller;
 import java.io.Serializable;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.danielev86.procycling.controller.dto.Response;
 import com.danielev86.procycling.controller.dto.TeamDTO;
+import com.danielev86.procycling.controller.dto.TeamDetailDTO;
 import com.danielev86.procycling.controller.utility.ResponseBuilder;
 import com.danielev86.procycling.service.ITeamService;
 
@@ -39,6 +41,25 @@ public class TeamController implements Serializable {
 		
 		ResponseBuilder<List<TeamDTO>> responseBuilder = new ResponseBuilder<>();
 
+		return responseBuilder.buildResponseEntity(checkValue, lstTeam);
+	}
+	
+	@RequestMapping(value="/getAllTeamDetail"
+			, produces = MediaType.APPLICATION_JSON_VALUE
+			, method=RequestMethod.GET)
+	public ResponseEntity<Response<List<TeamDetailDTO>>> getAllTeamDetail(){
+		List<TeamDetailDTO> lstTeam = new ArrayList<>();
+		Boolean checkValue = null;
+		
+		try {
+			lstTeam = teamService.getAllTeamDetail();
+			checkValue = Boolean.TRUE;
+		}catch(Exception e) {
+			checkValue = Boolean.FALSE;
+		}
+		
+		ResponseBuilder<List<TeamDetailDTO>> responseBuilder = new ResponseBuilder<>();
+		
 		return responseBuilder.buildResponseEntity(checkValue, lstTeam);
 	}
 
