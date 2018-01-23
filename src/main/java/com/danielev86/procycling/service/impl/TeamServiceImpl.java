@@ -1,10 +1,14 @@
 package com.danielev86.procycling.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.convert.ConversionService;
+import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.stereotype.Service;
 
 import com.danielev86.procycling.backend.ITeamDAO;
@@ -24,34 +28,34 @@ public class TeamServiceImpl implements ITeamService {
 	private ITeamDAO teamDao;
 	
 	@Autowired
-	private TeamDTOConverter teamDTOConverter;
-	
-	@Autowired
-	private TeamDetailDTOConverter teamDetailDTOConverter;
+	@Qualifier(value="conversionService")
+	private ConversionService converter;
 	
 	@Override
+	@SuppressWarnings("unchecked")
 	public List<TeamDTO> getAllTeam(){
 		List<TeamBO> lstTeam = new ArrayList<>();
 		List<TeamDTO> lstResult = new ArrayList<>();
 		lstTeam = teamDao.getAllTeam();
 		
 		if (CollectionUtils.isNotEmpty(lstTeam)) {
-			for (TeamBO team : lstTeam) {
-				lstResult.add(teamDTOConverter.convert(team));
-			}
+			lstResult = (List<TeamDTO>) converter.convert(lstTeam
+					, TypeDescriptor.collection(Collection.class, TypeDescriptor.valueOf(TeamBO.class))
+					, TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(TeamDTO.class)));
 		}
 		return lstResult;
 	}
 	
 	@Override
+	@SuppressWarnings("unchecked")
 	public List<TeamDetailDTO> getAllTeamDetail(){
 		List<TeamDetailDTO> lstResult = new ArrayList<>();
 		List<TeamBO> lstTeam = teamDao.getAllTeam();
 		
 		if (CollectionUtils.isNotEmpty(lstTeam)) {
-			for (TeamBO team:lstTeam) {
-				lstResult.add(teamDetailDTOConverter.convert(team));
-			}
+			lstResult = (List<TeamDetailDTO>) converter.convert(lstTeam
+					, TypeDescriptor.collection(Collection.class, TypeDescriptor.valueOf(TeamBO.class))
+					, TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(TeamDetailDTO.class)));
 		}
 		return lstResult;
 	}
