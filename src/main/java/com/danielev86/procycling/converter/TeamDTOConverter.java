@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 import com.danielev86.procycling.backend.bo.TeamBO;
 import com.danielev86.procycling.controller.dto.TeamDTO;
 
-@Component
 public class TeamDTOConverter implements Converter<TeamBO, TeamDTO> {
 
 	@Override

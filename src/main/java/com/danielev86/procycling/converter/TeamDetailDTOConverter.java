@@ -7,7 +7,6 @@ import com.danielev86.procycling.backend.bo.TeamBO;
 import com.danielev86.procycling.controller.dto.CountryDTO;
 import com.danielev86.procycling.controller.dto.TeamDetailDTO;
 
-@Component
 public class TeamDetailDTOConverter implements Converter<TeamBO, TeamDetailDTO> {
 
 	@Override
